@@ -52,7 +52,7 @@ jobs:
     - name: "Terraform Initialize"
       id: init
       run: |
-        terraform init -input=false
+        terraform init -backend-config="backends/wsl2/wsl2.hcl" -input=false
 
     # Generates an execution plan for Terraform
     - name: "Terraform Plan"

@@ -8,6 +8,6 @@ argo_cd = {
     version          = "8.0.6"
     replace          = false
     force_update     = false
-    upgrade_install  = true
+    upgrade_install  = false
   }
 }
