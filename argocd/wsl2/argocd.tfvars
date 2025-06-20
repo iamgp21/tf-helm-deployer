@@ -11,3 +11,5 @@ argo_cd = {
     upgrade_install  = false
   }
 }
+
+values = [ file("${path.root}/helm-values/wsl2/argocd.yaml") ] 

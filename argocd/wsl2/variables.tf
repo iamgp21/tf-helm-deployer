@@ -21,7 +21,6 @@ variable "argocd_admin_password" {
 variable "values" {
   type        = list(string)
   description = "List of values files for the Helm release"
-  default     = []
   sensitive   = false
   
 }
