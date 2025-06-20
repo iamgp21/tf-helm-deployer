@@ -19,7 +19,7 @@ env:
 jobs:    
   argocd_deploy:
     name: 'argocd deploy'
-    runs-on: homelab
+    runs-on: tf-helm-deployer
 
     permissions:
       contents: 'read'
