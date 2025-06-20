@@ -22,7 +22,7 @@ jobs:
     runs-on: tf-helm-deployer
     defaults:
       run:
-        working-directory: './tf-helm-deployer'
+        working-directory: './'
 
 
     permissions:
