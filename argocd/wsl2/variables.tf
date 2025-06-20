@@ -17,10 +17,3 @@ variable "argocd_admin_password" {
   description = "The admin password for ArgoCD"
   sensitive = true
 }
-
-variable "values" {
-  type        = list(string)
-  description = "List of values files for the Helm release"
-  sensitive   = false
-  
-}
