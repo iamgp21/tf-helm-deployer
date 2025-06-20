@@ -22,7 +22,7 @@ jobs:
     runs-on: tf-helm-deployer
     defaults:
       run:
-        w orking-directory: 'argocd/wsl2'
+        working-directory: 'argocd/wsl2'
 
 
     permissions:
