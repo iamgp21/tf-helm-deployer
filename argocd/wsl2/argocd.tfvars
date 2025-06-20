@@ -12,4 +12,4 @@ argo_cd = {
   }
 }
 
-values = [ file("${path.root}/helm-values/wsl2/argocd.yaml") ] 
+# values = [ file("${path.root}/helm-values/wsl2/argocd.yaml") ] 

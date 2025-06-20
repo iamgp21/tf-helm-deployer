@@ -1,1 +1,0 @@
-path = "/mnt/c/Users/gaura/OneDrive/GITHUB/iamgp21/TF_STATE/wsl2_argocd.tfstate"
