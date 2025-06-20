@@ -22,7 +22,7 @@ jobs:
     runs-on: tf-helm-deployer
     defaults:
       run:
-        working-directory: './'
+        working-directory: 'argocd/wsl2'
 
 
     permissions:
@@ -56,12 +56,12 @@ jobs:
     - name: "Terraform Initialize"
       id: init
       run: |
-        terraform init -backend-config="backends/wsl2/wsl2.hcl" -input=false
+        terraform init -backend-config="../../backends/wsl2/wsl2.hcl" -input=false
 
     # Generates an execution plan for Terraform
     - name: "Terraform Plan"
       id: plan
-      run: terraform plan  -var-file argocd/wsl2/argocd.tfvars -refresh=true -input=false -lock=false  -no-color
+      run: terraform plan  -var-file argocd.tfvars -refresh=true -input=false -lock=false  -no-color
 
     # Exit when plan failes
     - name: "Terraform Plan Status"
@@ -71,4 +71,4 @@ jobs:
     - name: "Terraform Apply"
       id: apply
       if: github.event_name == 'push'
-      run: terraform apply  -var-file argocd/wsl2/argocd.tfvars -input=false -lock=false -auto-approve -no-color
+      run: terraform apply  -var-file argocd.tfvars -input=false -lock=false -auto-approve -no-color
