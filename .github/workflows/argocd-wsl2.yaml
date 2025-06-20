@@ -20,7 +20,10 @@ jobs:
   argocd_deploy:
     name: 'argocd deploy'
     runs-on: tf-helm-deployer
-    working-directory: argocd/wsl2
+    defaults:
+      run:
+        w orking-directory: 'argocd/wsl2'
+
 
     permissions:
       contents: 'read'
