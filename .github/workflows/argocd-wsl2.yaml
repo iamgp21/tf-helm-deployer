@@ -1,0 +1,70 @@
+name: ArgoCD Deploy
+
+on:
+  workflow_dispatch:
+
+  push:
+    # branches:
+    #   - dev
+    paths:
+      - 'argocd/wsl2/argocd.tfvars'
+      - 'argocd/wsl2/main.tf'
+      - 'helm-values/wsl2/argocd.yaml'
+      - '.github/workflows/argocd-wsl2.yaml'
+  
+env:
+  # Set the ArgoCD admin password
+  TF_VAR_argocd_admin_password: ${{ secrets.ARGOCD_ADMIN_PASSWORD }}
+
+jobs:    
+  argocd_deploy:
+    name: 'argocd deploy'
+    runs-on: homelab
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: 'actions/checkout@v4'
+
+    # Install Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20' # Use the appropriate version of Node.js
+          
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: "Setup Terraform"
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.9.0"
+    
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: "Terraform Format"
+      id: fmt
+      run: terraform fmt
+      continue-on-error: false
+    
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: "Terraform Initialize"
+      id: init
+      run: |
+        terraform init -input=false
+
+    # Generates an execution plan for Terraform
+    - name: "Terraform Plan"
+      id: plan
+      run: terraform plan  -var-file argocd/wsl2/argocd.tfvars -refresh=true -input=false -lock=false  -no-color
+
+    # Exit when plan failes
+    - name: "Terraform Plan Status"
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+  
+    - name: "Terraform Apply"
+      id: apply
+      if: github.event_name == 'push'
+      run: terraform apply  -var-file argocd/wsl2/argocd.tfvars -input=false -lock=false -auto-approve -no-color
